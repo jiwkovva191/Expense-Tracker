@@ -1,7 +1,7 @@
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args); //sets up the configuration services and the web server
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(); //adding services to handle HTTP requests and return views
 
 var app = builder.Build();
 
@@ -13,8 +13,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
+
+app.UseHttpsRedirection(); //redirects HTTP requests to HTTPS
+app.UseRouting(); //sets up the request pipeline to use routing
 
 app.UseAuthorization();
 
