@@ -1,8 +1,13 @@
+using Expense_Tracker.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args); //sets up the configuration services and the web server
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(); //adding services to handle HTTP requests and return views
-
+//added service for the database
+builder.Services.AddDbContext<Context>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
