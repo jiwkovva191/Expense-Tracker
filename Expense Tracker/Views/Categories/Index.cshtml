@@ -1,0 +1,31 @@
+﻿@model List<Expense_Tracker.Models.Category>
+@{
+	//specifying the title of the page
+	ViewData["Title"] = "Categories";
+}
+
+<h3>List of Categories</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Title</th>			
+			<th>Type</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.Icon?</td>
+				<td>@item.Title</td>
+				<td>@item.Type</td>
+				<td>
+					@*here we can add edit and delete links*@
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
