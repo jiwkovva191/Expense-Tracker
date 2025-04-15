@@ -42,6 +42,10 @@ namespace Expense_Tracker.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
             return View(category);
         }
 

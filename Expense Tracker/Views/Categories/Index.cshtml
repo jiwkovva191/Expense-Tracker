@@ -24,6 +24,8 @@
 				<td>@item.Type</td>
 				<td>
 					@*here we can add edit and delete links*@
+
+					<a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
 				</td>
 			</tr>
 		}
