@@ -18,7 +18,8 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td>@item.Icon?</td>
+				@*font awesome uses the i class as a semantic placeholdeer for icons and that's why it's needed*@
+				<td><i class="@item.Icon"></i></td>
 				<td>@item.Title</td>
 				<td>@item.Type</td>
 				<td>

@@ -1,0 +1,58 @@
+﻿@model Expense_Tracker.Models.Category
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h3>Create a Category</h3>
+<form asp-action="Create" method="post">
+	<div class="form-group">
+		<label for="Title">Title:</label>
+		<input type ="text" class="form-control" asp-for="Title"/>
+	</div>
+	<div class="form-group">
+		<label for="Icon">Icon:</label>
+		<div id="icon-picker" class="d-flex flex-wrap">
+			@{
+				var icons = new List<string>
+			{
+			"fa-solid fa-car",
+			"fa-solid fa-utensils",
+			"fa-solid fa-shopping-cart",
+			"fa-solid fa-plane",
+			"fa-solid fa-home",
+			"fa-solid fa-heart",
+			"fa-solid fa-bicycle",
+			"fa-solid fa-bell"
+			};
+			}
+			@foreach (var icon in icons)
+			{
+				<div class="p-2">
+					<i class="@icon icon-option" data-icon="@icon" style="font-size:24px; cursor:pointer;"></i>
+				</div>
+			}
+		</div>
+		<input type="hidden" id="Icon" name="Icon" value="@Model?.Icon" />
+	</div>
+	<div class="form-group">
+		<label for="Type">Type:</label>
+		<input type="text" class="form-control" asp-for="Type" />
+	</div>
+	<button type="submit" class="btn btn-primary">Create</button>
+
+</form>
+
+<script>
+	//selects all the icon-option elements and attaches an event handler to the element
+	document.querySelectorAll('.icon-option').forEach(icon =>{
+		icon.addEventListener('click', function(){
+			//remove highlight color from all icons
+			document.querySelectorAll('.icon-option').forEach(i=>i.style.color='');
+			//highlight the selected icon
+			this.style.color='blue';
+			//set the value of the hidden input to the selected icon
+			//the data-icon attribute stores the icon name
+			document.getElementById('Icon').value = this.getAttribute('data-icon');
+		});
+	});
+</script>
