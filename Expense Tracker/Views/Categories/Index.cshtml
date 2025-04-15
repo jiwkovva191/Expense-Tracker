@@ -18,11 +18,13 @@
 	<tbody>
 		@foreach (var category in Model)
 		{
+			//conditional class based on the type
+			var typeClass = category.Type == "Income" ? "bg-success text-white" : "bg-danger text-white";
 			<tr>
 				@*font awesome uses the i class as a semantic placeholdeer for icons and that's why it's needed*@
 				<td><i class="@category.Icon"></i></td>
 				<td>@category.Title</td>
-				<td>@category.Type</td>
+				<td class="@typeClass">@category.Type</td>
 				<td>
 					@*here we can add edit and delete links*@
 
