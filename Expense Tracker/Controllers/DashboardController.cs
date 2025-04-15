@@ -49,7 +49,7 @@ namespace Expense_Tracker.Controllers
                 }).ToList();
 
             //prepare data for the chart
-            ViewBag.ExoenseCategories = expenceByCategory.Select(e=>e.Category).ToList(); //labels
+            ViewBag.ExpenseCategories = expenceByCategory.Select(e=>e.Category).ToList(); //labels
             ViewBag.ExpenseAmounts = expenceByCategory.Select(e => e.TotalAmount).ToList(); //data
 
             return View();
