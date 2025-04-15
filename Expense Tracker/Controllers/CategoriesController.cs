@@ -61,6 +61,25 @@ namespace Expense_Tracker.Controllers
             return View(category);
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
+            return View(category);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
 
     }
 }
