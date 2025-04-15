@@ -16,7 +16,9 @@ namespace Expense_Tracker.Controllers
         }
       public async Task<IActionResult> Index()
         {
-            var transactions = await _context.Transactions.ToListAsync();
+            var transactions = await _context.Transactions
+                .Include(t=>t.Category)
+                .ToListAsync();
             return View(transactions);
         }
 
@@ -35,6 +37,33 @@ namespace Expense_Tracker.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            //re-populating the dropdown list when the model state is invalid
+            ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Title");
+            return View(transaction);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Title");
+            var transaction = await _context.Transactions.FirstOrDefaultAsync(x => x.TransactionId == id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+            return View(transaction);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id ,[Bind("TransactionId, CategoryId, Amount, Note,Date")] Transaction transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Update(transaction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            //re-populating the dropdown list when the model state is invalid
+            ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(transaction);
         }
     }

@@ -17,10 +17,13 @@
 		@foreach(var transaction in Model)
 		{
 			<tr>
-				<td>@transaction.Category?.Title</td>
+				<td>@transaction.Category.Title</td>
 				<td>@transaction.Amount.ToString("N2")</td>
 				<td>@transaction.Note</td>
 				<td>@transaction.Date</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@transaction.TransactionId">Edit</a>
+				</td>
 			</tr>
 		}
 	</tbody>
