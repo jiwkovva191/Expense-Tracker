@@ -1,0 +1,27 @@
+﻿@model List<Expense_Tracker.Models.Transaction>
+@{
+	ViewData["Title"] = "Transactions";
+}
+
+<h3>List of Transactions</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Amount</th>
+			<th>Note</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var transaction in Model)
+		{
+			<tr>
+				<td>@transaction.Category?.Title</td>
+				<td>@transaction.Amount.ToString("N2")</td>
+				<td>@transaction.Note</td>
+				<td>@transaction.Date</td>
+			</tr>
+		}
+	</tbody>
+</table>
