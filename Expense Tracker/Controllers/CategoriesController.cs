@@ -39,5 +39,24 @@ namespace Expense_Tracker.Controllers
             return View(category);
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == id);
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>Edit(int id, [Bind("CategoryId, Title, Icon, Type")] Category category)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(category);
+        }
+
+
     }
 }
