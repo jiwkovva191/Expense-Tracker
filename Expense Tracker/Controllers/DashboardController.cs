@@ -48,9 +48,50 @@ namespace Expense_Tracker.Controllers
                     TotalAmount = group.Sum(t => t.Amount)
                 }).ToList();
 
-            //prepare data for the chart
+            //prepare data for the doughnut chart
             ViewBag.ExpenseCategories = expenceByCategory.Select(e=>e.Category).ToList(); //labels
             ViewBag.ExpenseAmounts = expenceByCategory.Select(e => e.TotalAmount).ToList(); //data
+
+
+
+            //line chart - income vs expense
+            //income
+
+            var dailyIncome = SelectedTransactions
+                .Where(t=>t.Category.Type=="Income")
+                .GroupBy(t=>t.Date.Date)
+                .Select(group=> new
+                {
+                    Date = group.Key,
+                    TotalAmount = group.Sum(t => t.Amount)
+                }) .ToList();
+
+            var dailyExpense = SelectedTransactions
+                .Where(t => t.Category.Type == "Expense")
+                .GroupBy(t => t.Date.Date)
+                .Select(group => new
+                { 
+                    Date = group.Key,
+                    TotalAmount = group.Sum(t=>t.Amount)
+                
+                }).ToList();
+
+            //generate a list for the last 30 days
+            var last30Days = Enumerable.Range(0, 30)
+                .Select(i => DateTime.Today.AddDays(-i))
+                .ToList();
+            //prepare data for the line chart
+            var incomeData = last30Days
+                .Select(date => dailyIncome.FirstOrDefault(d => d.Date == date)?.TotalAmount ?? 0)
+                .ToList();
+
+            var expenseData = last30Days
+                .Select(date => dailyExpense.FirstOrDefault(d => d.Date == date)?.TotalAmount ?? 0)
+                .ToList();
+
+            ViewBag.Dates = last30Days.Select(d=>d.ToString("dd/MM/yyyy")).ToList();//x-axis
+            ViewBag.IncomeData = incomeData; //y-axis
+            ViewBag.ExpenseData = expenseData; //y-axis
 
             return View();
         }

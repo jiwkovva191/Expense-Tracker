@@ -1,9 +1,7 @@
-﻿
-@{
-	
+﻿@{
+    
 }
-
-@*Summary widgets*@
+@* Summary widgets *@
 <div class="row mb-4">
     <div class="col-md-4 d-flex">
         <div class="widget balance text-white text-center py-3 flex-fill">
@@ -24,15 +22,25 @@
         </div>
     </div>
 </div>
-@*Chart*@
-<div style="max-width:400px;">
-	<canvas id="expenseChart"></canvas>  
+
+@* Charts in a row *@
+<div class="row">
+    <div class="col-md-6 d-flex justify-content-center mb-4">
+        <div style="width: 100%; max-width: 400px;">
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-center mb-4">
+        <div style="width: 100%; max-width: 600px;">
+            <canvas id="incomeExpenseChart"></canvas>
+        </div>
+    </div>
 </div>
 
 <style>
     .widget {
         border-radius: 1rem;
-        font-size: 16px; /* Adjust font size as needed */
+        font-size: 16px;
     }
 
         .widget.income {
@@ -47,12 +55,13 @@
             background-color: blue;
         }
 </style>
+
 <script>
     const categories = @Html.Raw(Json.Serialize(ViewBag.ExpenseCategories));
     const amounts = @Html.Raw(Json.Serialize(ViewBag.ExpenseAmounts));
 
-    const ctx = document.getElementById('expenseChart').getContext('2d');
-    const expenseChart = new Chart(ctx, {
+    const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+    const expenseChart = new Chart(expenseCtx, {
         type: 'doughnut',
         data: {
             labels: categories,
@@ -78,12 +87,68 @@
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             let label = context.label || '';
                             let value = context.formattedValue || context.raw;
-                            return `${label}: ${value}`;
+                            return `${label}: $${value}`;
                         }
                     }
+                }
+            }
+        }
+    });
+
+    const dates = @Html.Raw(Json.Serialize(ViewBag.Dates));
+    const incomeData = @Html.Raw(Json.Serialize(ViewBag.IncomeData));
+    const expenseData = @Html.Raw(Json.Serialize(ViewBag.ExpenseData));
+
+    const lineCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+    const incomeExpenseChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [
+                {
+                    label: 'Income',
+                    data: incomeData,
+                    borderColor: 'green',
+                    backgroundColor: 'rgba(0, 128, 0, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Expense',
+                    data: expenseData,
+                    borderColor: 'red',
+                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Amount ($)'
+                    },
+                    beginAtZero: true
                 }
             }
         }
