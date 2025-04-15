@@ -1,0 +1,28 @@
+﻿@model Expense_Tracker.Models.Transaction
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h3>Create Transaction</h3>
+<form asp-action="Create" method="post">
+	<div class="form-group">
+		<label for="CategoryId">Category:</label>
+		<select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+	</div>
+
+	<div class="form-group">
+		<label for="Amount">Amount:</label>
+		<input type="number" class="form-control" asp-for="Amount" />
+    </div>
+
+	<div class="form-group">
+		<label for="Note">Note:</label>
+		<input type="text" class="form-control" asp-for="Note" />
+	</div>
+
+	<div class="form-group">
+		<label for="Date">Date:</label>
+		<input type="date" class="form-control" asp-for="Date" />
+	</div>
+	<button type="submit" class="btn btn-primary">Create</button>
+</form>
