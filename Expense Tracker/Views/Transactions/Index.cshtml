@@ -1,0 +1,31 @@
+﻿@model List<Expense_Tracker.Models.Transaction>
+@{
+	ViewData["Title"] = "Transactions";
+}
+
+<h3>List of Transactions</h3>
+<table>
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Amount</th>
+			<th>Note</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var transaction in Model)
+		{
+			<tr>
+				<td>@transaction.Category.Title</td>
+				<td>@transaction.Amount.ToString("N2")</td>
+				<td>@transaction.Note</td>
+				<td>@transaction.Date</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@transaction.TransactionId">Edit</a>
+					<a asp-action="Delete" asp-route-id="@transaction.TransactionId">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
