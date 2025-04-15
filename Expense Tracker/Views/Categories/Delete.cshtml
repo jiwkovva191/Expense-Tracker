@@ -1,0 +1,14 @@
+﻿@model Expense_Tracker.Models.Category
+@{
+	ViewData["Title"] = "Delete";
+}
+<h3>Are you sure you want to delete this category?</h3>
+<p><i class="@Model.Icon"></i></p>
+<p>@Model.Title</p>
+<p>@Model.Type</p>
+
+<form asp-action="Delete" method="post">
+	<input type="hidden" asp-for="CategoryId"/>
+	<button type="submit" class="btn btn-danger">Delete</button>
+</form>
+<a asp-action="Index" class="btn btn-secondary">Cancel</a>

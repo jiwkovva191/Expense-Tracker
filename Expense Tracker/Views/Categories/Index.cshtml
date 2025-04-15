@@ -18,11 +18,15 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td>@item.Icon?</td>
+				@*font awesome uses the i class as a semantic placeholdeer for icons and that's why it's needed*@
+				<td><i class="@item.Icon"></i></td>
 				<td>@item.Title</td>
 				<td>@item.Type</td>
 				<td>
 					@*here we can add edit and delete links*@
+
+					<a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a>
+					<a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
 				</td>
 			</tr>
 		}
