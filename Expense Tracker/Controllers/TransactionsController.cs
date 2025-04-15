@@ -66,5 +66,25 @@ namespace Expense_Tracker.Controllers
             ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(transaction);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var transaction = await _context.Transactions.FirstOrDefaultAsync(x => x.TransactionId == id);            
+            return View(transaction);
+        }
+        // This method is called when the user confirms the deletion
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var transaction = await _context.Transactions.FindAsync(id);
+            if (transaction != null)
+            {
+                _context.Transactions.Remove(transaction);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
+
 }
